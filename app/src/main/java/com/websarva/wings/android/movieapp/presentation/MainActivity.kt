@@ -1,6 +1,7 @@
 package com.websarva.wings.android.movieapp.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.websarva.wings.android.movieapp.presentation.keyword_search_movie.KeywordSearchMoviesScreen
+import com.websarva.wings.android.movieapp.presentation.movie_detail.MovieDetailScreen
 import com.websarva.wings.android.movieapp.presentation.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,11 +37,11 @@ class MainActivity : ComponentActivity() {
                     ) {
                         //映画検索画面　routeと画面を紐付け
                         composable(route = ScreenRoute.SearchMoviesScreen.route){
-                            KeywordSearchMoviesScreen()
+                            KeywordSearchMoviesScreen(navController)
                         }
                         //映画詳細画面　routeと画面を紐付け
-                        composable(route = ScreenRoute.MovieDetailScreen.route){
-                            /* todo */
+                        composable(route = ScreenRoute.MovieDetailScreen.route+ "/{movieId}"){
+                            MovieDetailScreen()
                         }
                     }
                 }

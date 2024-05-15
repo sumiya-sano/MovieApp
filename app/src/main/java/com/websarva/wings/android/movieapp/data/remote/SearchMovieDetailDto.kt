@@ -48,14 +48,14 @@ data class SearchMovieDetailDto(
     val voteCount: Int?
 )
 
-fun SearchMovieDetailDto.toMovieDerail(): MovieDetail {
+fun SearchMovieDetailDto.toMovieDetail(): MovieDetail {
     return MovieDetail(
-        movieId = id,
-        title = title!!,
-        overview = overview,
-        popularity = popularity,
-        posterPath = posterPath,
-        genres = genres,
-        productionCompanies = productionCompanies,
+        movieId = id ?: 0,
+        title = title.orEmpty(),
+        overview = overview.orEmpty(),
+        popularity = popularity ?: 0.0,
+        posterPath = posterPath.orEmpty(),
+        genres = genres?: emptyList(),
+        productionCompanies = productionCompanies?: emptyList(),
     )
 }

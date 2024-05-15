@@ -2,6 +2,7 @@ package com.websarva.wings.android.movieapp.presentation.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -24,7 +25,7 @@ fun CountLabel(
     Row (modifier = modifier){
         Icon(
             imageVector = imageVector,
-            contentDescription = "likes",
+            contentDescription = "人気度",
             tint = iconTint,
         )
         Spacer(modifier = Modifier.width(5.dp))
@@ -32,6 +33,7 @@ fun CountLabel(
             text = count.toString(),
             color = color,
             style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(top = 2.5.dp)
         )
     }
 }

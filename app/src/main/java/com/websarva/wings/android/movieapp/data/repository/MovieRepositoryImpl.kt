@@ -13,7 +13,7 @@ import javax.inject.Inject
 ) : MovieRepository {
     override suspend fun keywordSearchMovies(query: String): KeywordSearchMovieDto {
         try {
-            val result = api.keywordSearchMovies(query)
+            val result = api.keywordSearchMovies(query, language = "ja")
             return result
         } catch (e: Exception) {
             throw e // 例外を再スローして上位のコードで処理できるようにする
@@ -21,6 +21,6 @@ import javax.inject.Inject
     }
 
     override suspend fun searchMovieDetail(movieId: Int): SearchMovieDetailDto {
-        return api.searchMovieDetail(movieId)
+        return api.searchMovieDetail(movieId, language = "ja")
     }
 }
