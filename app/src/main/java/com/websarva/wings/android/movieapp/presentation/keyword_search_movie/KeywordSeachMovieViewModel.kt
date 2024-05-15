@@ -21,7 +21,7 @@ class KeywordSeachMovieViewModel @Inject constructor(
     private val _state = mutableStateOf(KeywordSearchMovieState())
     val state: State<KeywordSearchMovieState> = _state
 
-    var query by mutableStateOf("マトリックス")
+    var query by mutableStateOf("")
 
     init {
         keywordSearchMovies()
