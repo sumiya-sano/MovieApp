@@ -8,8 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,11 +37,11 @@ fun SearchBar(
     val keyboardController = LocalSoftwareKeyboardController.current
 
 
-    OutlinedTextField(
+    TextField(
         value = searchText,
         onValueChange = onSearchTextChanged,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(0.85f)
             .padding(vertical = 2.dp)
             .onFocusChanged { focusState ->
                 showClearButton = focusState.isFocused
