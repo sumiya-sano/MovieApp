@@ -40,7 +40,7 @@ fun KeywordSearchMoviesScreen(
     viewModel: KeywordSeachMovieViewModel = hiltViewModel(),
 ){
     val state = viewModel.state.value
-    val gridViewState = remember { mutableStateOf(true) }
+    val gridViewStateflag = remember { mutableStateOf(true) }
 
     Scaffold (
         topBar = {
@@ -52,10 +52,10 @@ fun KeywordSearchMoviesScreen(
                 )
                 IconButton(
                     onClick = {
-                              if (gridViewState.value){
-                                  gridViewState.value = false
+                              if (gridViewStateflag.value){
+                                  gridViewStateflag.value = false
                               }else{
-                                  gridViewState.value = true
+                                  gridViewStateflag.value = true
                               }
                               },
                     modifier = Modifier.padding(10.dp)
@@ -88,7 +88,7 @@ fun KeywordSearchMoviesScreen(
                     )
                 }
                 else -> {
-                    if (gridViewState.value){
+                    if (gridViewStateflag.value){
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 160.dp),
                             modifier = Modifier.padding(paddingValue)

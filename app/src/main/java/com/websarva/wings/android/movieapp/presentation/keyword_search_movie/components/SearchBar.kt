@@ -30,7 +30,7 @@ fun SearchBar(
     searchText: String,
     onSearchTextChanged: (String) -> Unit,
     onDane: () ->Unit,
-    placeholderText: String = "Search...",
+    placeholderText: String = "Search..",
 ){
     var showClearButton by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }

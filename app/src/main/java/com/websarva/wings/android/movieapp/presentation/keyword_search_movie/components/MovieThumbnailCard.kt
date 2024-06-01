@@ -53,7 +53,7 @@ fun MovieThumbnailCard(
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = movie.overview ?: "No overview",
+                    text = movie.overview ?: "No Overview",
                     color = Color.White,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 3,
