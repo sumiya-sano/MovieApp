@@ -1,9 +1,8 @@
-package com.websarva.wings.android.movieapp.domain.use_case
+package com.websarva.wings.android.movieapp.application.keyword_search_usecase
 
-import com.websarva.wings.android.movieapp.common.NetworkResponse
-import com.websarva.wings.android.movieapp.data.remote.toMovies
-import com.websarva.wings.android.movieapp.domain.model.Movie
-import com.websarva.wings.android.movieapp.domain.repository.MovieRepository
+import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
+import com.websarva.wings.android.movieapp.domain.entity.Movie
+import com.websarva.wings.android.movieapp.domain.repository_interface.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

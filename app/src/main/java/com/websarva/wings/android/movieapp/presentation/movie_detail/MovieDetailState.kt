@@ -1,6 +1,6 @@
 package com.websarva.wings.android.movieapp.presentation.movie_detail
 
-import com.websarva.wings.android.movieapp.domain.model.MovieDetail
+import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 
 data class MovieDetailState(
     val isLoading: Boolean = false,

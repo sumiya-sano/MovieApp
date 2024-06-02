@@ -1,4 +1,4 @@
-package com.websarva.wings.android.movieapp.data.remote
+package com.websarva.wings.android.movieapp.domain.value_object
 
 
 import com.squareup.moshi.Json

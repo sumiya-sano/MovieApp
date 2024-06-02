@@ -18,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.websarva.wings.android.movieapp.common.Constants.IMAGE_URL
-import com.websarva.wings.android.movieapp.domain.model.Movie
+import com.websarva.wings.android.movieapp.infrastructure.external_api.TmdbApiKeystore.IMAGE_URL
+import com.websarva.wings.android.movieapp.domain.entity.Movie
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
 @Composable

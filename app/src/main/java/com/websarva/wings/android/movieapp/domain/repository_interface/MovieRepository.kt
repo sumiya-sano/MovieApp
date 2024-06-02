@@ -1,7 +1,7 @@
-package com.websarva.wings.android.movieapp.domain.repository
+package com.websarva.wings.android.movieapp.domain.repository_interface
 
-import com.websarva.wings.android.movieapp.data.remote.KeywordSearchMovieDto
-import com.websarva.wings.android.movieapp.data.remote.SearchMovieDetailDto
+import com.websarva.wings.android.movieapp.application.keyword_search_usecase.KeywordSearchMovieDto
+import com.websarva.wings.android.movieapp.application.movie_detail_usecase.SearchMovieDetailDto
 
 interface MovieRepository {
 

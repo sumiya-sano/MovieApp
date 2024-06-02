@@ -1,4 +1,4 @@
-package com.websarva.wings.android.movieapp.common
+package com.websarva.wings.android.movieapp.infrastructure
 
 sealed class NetworkResponse<T> (
     val data: T? = null,

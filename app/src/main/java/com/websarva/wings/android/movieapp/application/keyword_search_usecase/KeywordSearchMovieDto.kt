@@ -1,9 +1,10 @@
-package com.websarva.wings.android.movieapp.data.remote
+package com.websarva.wings.android.movieapp.application.keyword_search_usecase
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.websarva.wings.android.movieapp.domain.model.Movie
+import com.websarva.wings.android.movieapp.domain.value_object.Result
+import com.websarva.wings.android.movieapp.domain.entity.Movie
 
 @JsonClass(generateAdapter = true)
 data class KeywordSearchMovieDto(

@@ -12,8 +12,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -30,8 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.websarva.wings.android.movieapp.common.Constants
-import com.websarva.wings.android.movieapp.domain.model.MovieDetail
+import com.websarva.wings.android.movieapp.infrastructure.external_api.TmdbApiKeystore
+import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
 @Composable
@@ -75,7 +73,7 @@ fun MovieDetailContent(movieDetail: MovieDetail) {
                 )
             }
             AsyncImage(
-                model = Constants.IMAGE_URL +movieDetail.posterPath,
+                model = TmdbApiKeystore.IMAGE_URL +movieDetail.posterPath,
                 contentDescription = movieDetail.overview,
                 modifier = Modifier
                     .fillMaxWidth()

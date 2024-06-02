@@ -1,13 +1,12 @@
 package com.websarva.wings.android.movieapp.presentation.movie_detail
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.websarva.wings.android.movieapp.common.NetworkResponse
-import com.websarva.wings.android.movieapp.domain.use_case.SearchMovieDetailUseCase
+import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
+import com.websarva.wings.android.movieapp.application.movie_detail_usecase.SearchMovieDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

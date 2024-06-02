@@ -1,4 +1,4 @@
-package com.websarva.wings.android.movieapp.domain.model
+package com.websarva.wings.android.movieapp.domain.entity
 
 data class Movie(
     val movieId: Int,

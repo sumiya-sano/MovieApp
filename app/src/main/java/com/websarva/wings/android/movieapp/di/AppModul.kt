@@ -2,10 +2,10 @@ package com.websarva.wings.android.movieapp.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.websarva.wings.android.movieapp.common.Constants.BASE_URL
-import com.websarva.wings.android.movieapp.data.remote.ThemoviedbAPI
-import com.websarva.wings.android.movieapp.data.repository.MovieRepositoryImpl
-import com.websarva.wings.android.movieapp.domain.repository.MovieRepository
+import com.websarva.wings.android.movieapp.infrastructure.external_api.TmdbApiKeystore.BASE_URL
+import com.websarva.wings.android.movieapp.infrastructure.external_api.ThemoviedbAPI
+import com.websarva.wings.android.movieapp.infrastructure.repository_implement.MovieRepositoryImpl
+import com.websarva.wings.android.movieapp.domain.repository_interface.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

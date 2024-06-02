@@ -1,9 +1,14 @@
-package com.websarva.wings.android.movieapp.data.remote
+package com.websarva.wings.android.movieapp.application.movie_detail_usecase
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.websarva.wings.android.movieapp.domain.model.MovieDetail
+import com.websarva.wings.android.movieapp.domain.value_object.BelongsToCollection
+import com.websarva.wings.android.movieapp.domain.value_object.Genre
+import com.websarva.wings.android.movieapp.domain.value_object.ProductionCompany
+import com.websarva.wings.android.movieapp.domain.value_object.ProductionCountry
+import com.websarva.wings.android.movieapp.domain.value_object.SpokenLanguage
+import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 
 @JsonClass(generateAdapter = true)
 data class SearchMovieDetailDto(

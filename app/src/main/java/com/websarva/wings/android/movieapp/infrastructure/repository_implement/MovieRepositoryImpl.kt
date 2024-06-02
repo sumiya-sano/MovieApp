@@ -1,10 +1,9 @@
-package com.websarva.wings.android.movieapp.data.repository
+package com.websarva.wings.android.movieapp.infrastructure.repository_implement
 
-import android.util.Log
-import com.websarva.wings.android.movieapp.data.remote.KeywordSearchMovieDto
-import com.websarva.wings.android.movieapp.data.remote.SearchMovieDetailDto
-import com.websarva.wings.android.movieapp.data.remote.ThemoviedbAPI
-import com.websarva.wings.android.movieapp.domain.repository.MovieRepository
+import com.websarva.wings.android.movieapp.application.keyword_search_usecase.KeywordSearchMovieDto
+import com.websarva.wings.android.movieapp.application.movie_detail_usecase.SearchMovieDetailDto
+import com.websarva.wings.android.movieapp.infrastructure.external_api.ThemoviedbAPI
+import com.websarva.wings.android.movieapp.domain.repository_interface.MovieRepository
 import javax.inject.Inject
 
 //コンストラクタ・インジェクション

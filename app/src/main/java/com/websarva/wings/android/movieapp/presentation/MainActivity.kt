@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
+                        //映画検索画面をデフォルト画面に設定
                         startDestination =ScreenRoute.SearchMoviesScreen.route,
                     ) {
                         //映画検索画面　routeと画面を紐付け
