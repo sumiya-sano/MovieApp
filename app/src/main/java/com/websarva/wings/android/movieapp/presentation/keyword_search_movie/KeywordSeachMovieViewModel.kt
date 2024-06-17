@@ -38,7 +38,7 @@ class KeywordSeachMovieViewModel @Inject constructor(
                 is NetworkResponse.Failure -> {
                     _state.value = KeywordSearchMovieState(error = result.error)
                 }
-                is NetworkResponse.Loading ->{
+                is NetworkResponse.Loading -> {
                     _state.value = KeywordSearchMovieState(isLoading = true)
                 }
 

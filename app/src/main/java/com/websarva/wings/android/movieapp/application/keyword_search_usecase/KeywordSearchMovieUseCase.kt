@@ -2,7 +2,7 @@ package com.websarva.wings.android.movieapp.application.keyword_search_usecase
 
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import com.websarva.wings.android.movieapp.domain.entity.Movie
-import com.websarva.wings.android.movieapp.domain.repository_interface.MovieRepository
+import com.websarva.wings.android.movieapp.domain.repository_interface.movie.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

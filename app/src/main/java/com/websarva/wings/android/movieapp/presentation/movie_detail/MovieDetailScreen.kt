@@ -3,7 +3,6 @@ package com.websarva.wings.android.movieapp.presentation.movie_detail
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -14,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,42 +28,48 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.websarva.wings.android.movieapp.domain.entity.Comment
 import com.websarva.wings.android.movieapp.infrastructure.external_api.TmdbApiKeystore
 import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
+import com.websarva.wings.android.movieapp.presentation.comment.CommentViewModel
+import com.websarva.wings.android.movieapp.presentation.comment.CommentsComponent
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
 @Composable
 fun MovieDetailScreen(
-    //ここでMovieDetailViewModelが初期化され、MovieDetailViewModelのinit()が発火
-    viewModel: MovieDetailViewModel = hiltViewModel(),
+    movieDetailViewModel: MovieDetailViewModel = hiltViewModel(),
 ){
-    val state = viewModel.state.value
+    val movieDetailState by movieDetailViewModel.state
 
-    Box (modifier = Modifier.fillMaxSize()){
-        when {
-            state.isLoading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-
-            !state.error.isNullOrBlank() -> {
-                Text(
-                    text = state.error,
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-            else -> {
-                //movieDetail画からじゃなかったらラムダを実行
-                state.movieDetail?.let { movieDetail ->
-                    MovieDetailContent(movieDetail = movieDetail)
+        Box {
+            when {
+                movieDetailState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                !movieDetailState.error.isNullOrBlank() -> {
+                    Text(
+                        text = movieDetailState.error!!,
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+                else -> {
+                    Column {
+                        movieDetailState.movieDetail?.let { movieDetail ->
+                            MovieDetailContent(movieDetail = movieDetail)
+                        }
+                    }
                 }
             }
         }
-    }
 }
 
 @Composable
-fun MovieDetailContent(movieDetail: MovieDetail) {
+fun MovieDetailContent(
+    movieDetail: MovieDetail,
+    commentViewModel: CommentViewModel = hiltViewModel(),
+    ) {
+    val commentState by commentViewModel.state
     Column (modifier = Modifier.verticalScroll(rememberScrollState())) {
         Box (modifier = Modifier.heightIn(min = 200.dp)) {
             var isLoadingImage by remember { mutableStateOf(true) }
@@ -112,6 +118,20 @@ fun MovieDetailContent(movieDetail: MovieDetail) {
             val productionCompaniesNames = movieDetail.productionCompanies?.map { it?.name }
             val productionCompanies = productionCompaniesNames?.joinToString(", ")
             Text(text = "制作会社: ${productionCompanies}")
+            if (commentState.comments.size > 0) {
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+            }
+            CommentsList(comments = commentState.comments)
+        }
+    }
+}
+
+@Composable
+fun CommentsList(comments: List<Comment>) {
+    Column(modifier = Modifier.padding(5.dp)) {
+        comments.forEach { comment ->
+            CommentsComponent(comment = comment)
+            Spacer(modifier = Modifier.height(8.dp)) // 各コメントの間にスペースを追加
         }
     }
 }
