@@ -1,4 +1,4 @@
-package com.websarva.wings.android.movieapp.presentation.comment
+package com.websarva.wings.android.movieapp.presentation.comment.Get
 
 import com.websarva.wings.android.movieapp.domain.entity.Comment
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse

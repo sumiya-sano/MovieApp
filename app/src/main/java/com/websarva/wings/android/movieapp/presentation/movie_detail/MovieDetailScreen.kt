@@ -1,5 +1,6 @@
 package com.websarva.wings.android.movieapp.presentation.movie_detail
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,8 +33,10 @@ import coil.compose.AsyncImage
 import com.websarva.wings.android.movieapp.domain.entity.Comment
 import com.websarva.wings.android.movieapp.infrastructure.external_api.TmdbApiKeystore
 import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
-import com.websarva.wings.android.movieapp.presentation.comment.CommentViewModel
-import com.websarva.wings.android.movieapp.presentation.comment.CommentsComponent
+import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
+import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentViewModel
+import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentsComponent
+import com.websarva.wings.android.movieapp.presentation.comment.Put.PutCommentViewModel
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
 @Composable
@@ -68,8 +72,12 @@ fun MovieDetailScreen(
 fun MovieDetailContent(
     movieDetail: MovieDetail,
     commentViewModel: CommentViewModel = hiltViewModel(),
+    putCommentViewModel: PutCommentViewModel = hiltViewModel(),
     ) {
     val commentState by commentViewModel.state
+    val putCommentState by putCommentViewModel.putCommentState.collectAsState()
+
+
     Column (modifier = Modifier.verticalScroll(rememberScrollState())) {
         Box (modifier = Modifier.heightIn(min = 200.dp)) {
             var isLoadingImage by remember { mutableStateOf(true) }
@@ -118,19 +126,53 @@ fun MovieDetailContent(
             val productionCompaniesNames = movieDetail.productionCompanies?.map { it?.name }
             val productionCompanies = productionCompaniesNames?.joinToString(", ")
             Text(text = "制作会社: ${productionCompanies}")
-            if (commentState.comments.size > 0) {
+            if (commentState.comments.isNotEmpty()) {
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            CommentsList(comments = commentState.comments)
+            CommentsList(
+                comments = commentState.comments,
+                onEditComment = { commentId, editedComment ->
+                    putCommentViewModel.putComment(commentId = commentId, messageBody = editedComment)
+                    Log.d("コメント", "PUT処理完了")
+                }
+            )
+        }
+        when (putCommentState) {
+            is NetworkResponse.Loading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
+            is NetworkResponse.Success -> {
+                Text(
+                    text = "Comment updated successfully!",
+                    color = Color.Green,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is NetworkResponse.Failure -> {
+                (putCommentState as NetworkResponse.Failure).error?.let {
+                    Text(
+                        text = it,
+                        color = Color.Red,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+            }
+            else -> {}
         }
     }
 }
 
 @Composable
-fun CommentsList(comments: List<Comment>) {
+fun CommentsList(
+    comments: List<Comment>,
+    onEditComment: (Int, String) -> Unit,
+    ) {
     Column(modifier = Modifier.padding(5.dp)) {
         comments.forEach { comment ->
-            CommentsComponent(comment = comment)
+            CommentsComponent(
+                comment = comment,
+                onEditComment = onEditComment
+                )
             Spacer(modifier = Modifier.height(8.dp)) // 各コメントの間にスペースを追加
         }
     }

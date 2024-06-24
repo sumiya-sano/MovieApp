@@ -1,4 +1,4 @@
-package com.websarva.wings.android.movieapp.presentation.comment
+package com.websarva.wings.android.movieapp.presentation.comment.Get
 
 import android.util.Log
 import androidx.compose.runtime.State
@@ -30,11 +30,11 @@ class CommentViewModel @Inject constructor(
                         isLoading = false,
                         comments = result.data ?: emptyList(),
                     )
-                    Log.d("コメント", "成功")
+                    Log.d("コメント", "GET成功")
                 }
                 is NetworkResponse.Failure -> {
                     _state.value = CommentState(error = result.error)
-                    Log.d("コメント", "失敗" + result.error)
+                    Log.d("コメント", "GET失敗" + result.error)
                 }
                 is NetworkResponse.Loading -> {
                     _state.value = CommentState(isLoading = true)
