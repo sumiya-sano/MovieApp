@@ -2,6 +2,7 @@ package com.websarva.wings.android.movieapp.infrastructure.repository_implement
 
 import android.util.Log
 import com.websarva.wings.android.movieapp.application.comment_usecase.GetCommentDto
+import com.websarva.wings.android.movieapp.domain.entity.PostCommentRequest
 import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 import com.websarva.wings.android.movieapp.domain.repository_interface.comment.CommentRepository
 import com.websarva.wings.android.movieapp.infrastructure.internal_api.CommentsAPI
@@ -18,15 +19,27 @@ class CommentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun putComment(commentId: Int, messageBody: Map<String, String>): ResMessage {
-        Log.d("コメント", "commentId ${commentId}" )
-        Log.d("コメント", "messageBody ${messageBody}" )
+    override suspend fun putComment(
+        commentId: Int,
+        messageBody: Map<String, String>
+    ): ResMessage {
         val response = api.putSuccessComment(commentId, messageBody)
 
         if (response.isSuccessful){
             return response.body() ?: throw Exception("Empty response body")
         } else {
             throw Exception("Error occurred: ${response.errorBody()?.string()}")
+        }
+    }
+
+    override suspend fun postComment(request: PostCommentRequest ): ResMessage {
+        val response = api.postSuccessComment(request)
+
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Empty response body")
+        } else {
+            throw Exception("Error occurred: ${response.errorBody()?.string()}")
+            Log.d("post", "repositoryImple: ${response.errorBody()?.string()}")
         }
     }
 }

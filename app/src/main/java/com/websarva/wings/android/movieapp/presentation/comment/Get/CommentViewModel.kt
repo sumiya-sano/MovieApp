@@ -30,17 +30,14 @@ class CommentViewModel @Inject constructor(
                         isLoading = false,
                         comments = result.data ?: emptyList(),
                     )
-                    Log.d("コメント", "GET成功")
                 }
                 is NetworkResponse.Failure -> {
                     _state.value = CommentState(error = result.error)
-                    Log.d("コメント", "GET失敗" + result.error)
                 }
                 is NetworkResponse.Loading -> {
                     _state.value = CommentState(isLoading = true)
                 }
             }
-            Log.d("コメント", _state.value.comments.toString())
         }.launchIn(viewModelScope)
     }
 }

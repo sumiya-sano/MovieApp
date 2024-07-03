@@ -3,6 +3,7 @@ package com.websarva.wings.android.movieapp.presentation.movie_detail
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -17,6 +20,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -36,6 +42,7 @@ import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentViewModel
 import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentsComponent
+import com.websarva.wings.android.movieapp.presentation.comment.Post.PostCommentViewModel
 import com.websarva.wings.android.movieapp.presentation.comment.Put.PutCommentViewModel
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
@@ -73,9 +80,14 @@ fun MovieDetailContent(
     movieDetail: MovieDetail,
     commentViewModel: CommentViewModel = hiltViewModel(),
     putCommentViewModel: PutCommentViewModel = hiltViewModel(),
+    postCommentViewModel: PostCommentViewModel = hiltViewModel(),
     ) {
     val commentState by commentViewModel.state
     val putCommentState by putCommentViewModel.putCommentState.collectAsState()
+    val postCommentState by postCommentViewModel.postCommentState.collectAsState()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var postedComment by remember { mutableStateOf("") }
 
 
     Column (modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -129,35 +141,82 @@ fun MovieDetailContent(
             if (commentState.comments.isNotEmpty()) {
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            CommentsList(
-                comments = commentState.comments,
-                onEditComment = { commentId, editedComment ->
-                    putCommentViewModel.putComment(commentId = commentId, messageBody = editedComment)
-                    Log.d("コメント", "PUT処理完了")
+            Column {
+                Row (verticalAlignment = Alignment.CenterVertically){
+                    TextField(
+                        value = postedComment,
+                        onValueChange = {postedComment = it},
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                postCommentViewModel.postComment(
+                                    userId = 111, //Todo
+                                    movieId = 3258,//Todo movieDetail.movieId ?: -1
+                                    messageBody = postedComment
+                                )
+                                keyboardController?.hide()
+                            }
+                        )
+                    )
                 }
-            )
-        }
-        when (putCommentState) {
-            is NetworkResponse.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-            }
-            is NetworkResponse.Success -> {
-                Text(
-                    text = "Comment updated successfully!",
-                    color = Color.Green,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                CommentsList(
+                    comments = commentState.comments,
+                    onEditComment = { commentId, editedComment ->
+                        putCommentViewModel.putComment(commentId = commentId, messageBody = editedComment)
+                    }
                 )
             }
-            is NetworkResponse.Failure -> {
-                (putCommentState as NetworkResponse.Failure).error?.let {
+        }
+        Column {
+            when (putCommentState) { //Todo 別コンポーネントにしてダイアログかトーストにする
+                is NetworkResponse.Loading -> {
+                }
+                is NetworkResponse.Success -> {
                     Text(
-                        text = it,
-                        color = Color.Red,
+                        text = "Comment updated successfully!",
+                        color = Color.Green,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
+                is NetworkResponse.Failure -> {
+                    (putCommentState as NetworkResponse.Failure).error?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                }
             }
-            else -> {}
+
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+            Log.d("post", postCommentState.toString())
+            when (postCommentState) { //Todo 別コンポーネントにしてダイアログかトーストにする
+                is NetworkResponse.Loading -> {
+                }
+                is NetworkResponse.Success -> {
+                    Text(
+                        text = "Comment post successfully!",
+                        color = Color.Green,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Log.d("post","post成功")
+                }
+                is NetworkResponse.Failure -> {
+                    (postCommentState as NetworkResponse.Failure).error?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                        Log.d("post","post失敗" + it)
+                    }
+                }
+            }
         }
     }
 }
@@ -172,7 +231,7 @@ fun CommentsList(
             CommentsComponent(
                 comment = comment,
                 onEditComment = onEditComment
-                )
+            )
             Spacer(modifier = Modifier.height(8.dp)) // 各コメントの間にスペースを追加
         }
     }
