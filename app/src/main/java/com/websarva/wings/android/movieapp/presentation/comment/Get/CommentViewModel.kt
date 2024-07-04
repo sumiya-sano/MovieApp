@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.movieapp.application.comment_usecase.GetCommentUsecase
+import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -19,11 +20,8 @@ class CommentViewModel @Inject constructor(
     private val _state = mutableStateOf(CommentState())
     val state: State<CommentState> = _state
 
-    init {
-        getComments()
-    }
-    fun getComments(){
-        getCommentUsecase().onEach {result ->
+    fun getComments(movieId: Int){
+        getCommentUsecase(movieId).onEach {result ->
             when(result){
                 is NetworkResponse.Success -> {
                     _state.value = CommentState(

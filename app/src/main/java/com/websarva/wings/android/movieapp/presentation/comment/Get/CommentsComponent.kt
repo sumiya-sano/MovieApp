@@ -25,6 +25,7 @@ import com.websarva.wings.android.movieapp.domain.entity.Comment
 fun CommentsComponent(
     comment: Comment,
     onEditComment: (Int,String) -> Unit,
+    onDeleteComment: (Int) -> Unit
 ){
     var isEditing by remember { mutableStateOf(false) }
     var editedComment by remember { mutableStateOf(comment.commentBody ?: "") }
@@ -70,7 +71,15 @@ fun CommentsComponent(
         }
 
 
-        OutlinedIconButton(onClick = { /*TODO*/ }) {
+        OutlinedIconButton(
+            onClick = {
+                onDeleteComment(
+                    // Todo comment.commentId ?: -1
+                    // 999 //エラーの場合
+                    222
+                )
+            }
+        ) {
             Icon(imageVector = Icons.Default.Delete,
                 contentDescription = "delete",
             )

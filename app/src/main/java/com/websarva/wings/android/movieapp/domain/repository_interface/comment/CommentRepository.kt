@@ -7,10 +7,11 @@ import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 interface CommentRepository {
 
     //GET
-    suspend fun getComment(): GetCommentDto
+    suspend fun getComment(movieId: Int): GetCommentDto
     //PUT
     suspend fun putComment(commentId: Int, messageBody: Map<String, String>): ResMessage
     //POST
     suspend fun postComment(request: PostCommentRequest): ResMessage
     //DELETE
+    suspend fun deleteComment(commentId: Int): ResMessage
 }

@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +45,7 @@ import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentViewM
 import com.websarva.wings.android.movieapp.presentation.comment.Get.CommentsComponent
 import com.websarva.wings.android.movieapp.presentation.comment.Post.PostCommentViewModel
 import com.websarva.wings.android.movieapp.presentation.comment.Put.PutCommentViewModel
+import com.websarva.wings.android.movieapp.presentation.comment.delete.DeleteCommentViewModel
 import com.websarva.wings.android.movieapp.presentation.components.CountLabel
 
 @Composable
@@ -81,13 +83,22 @@ fun MovieDetailContent(
     commentViewModel: CommentViewModel = hiltViewModel(),
     putCommentViewModel: PutCommentViewModel = hiltViewModel(),
     postCommentViewModel: PostCommentViewModel = hiltViewModel(),
+    deleteCommentViewModel: DeleteCommentViewModel = hiltViewModel(),
     ) {
     val commentState by commentViewModel.state
     val putCommentState by putCommentViewModel.putCommentState.collectAsState()
     val postCommentState by postCommentViewModel.postCommentState.collectAsState()
+    val deleteCommentState by deleteCommentViewModel.deleteCommentState.collectAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
     var postedComment by remember { mutableStateOf("") }
+
+    LaunchedEffect(movieDetail.movieId) {
+        commentViewModel.getComments(
+            3258
+        //    movieDetail.movieId
+        )
+    }
 
 
     Column (modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -166,11 +177,17 @@ fun MovieDetailContent(
                     comments = commentState.comments,
                     onEditComment = { commentId, editedComment ->
                         putCommentViewModel.putComment(commentId = commentId, messageBody = editedComment)
+                    },
+                    onDeleteComment = {commentId ->
+                        deleteCommentViewModel.deleteComment(commentId)
                     }
                 )
             }
         }
-        Column {
+
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+
             when (putCommentState) { //Todo 別コンポーネントにしてダイアログかトーストにする
                 is NetworkResponse.Loading -> {
                 }
@@ -192,9 +209,6 @@ fun MovieDetailContent(
                 }
             }
 
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-            Log.d("post", postCommentState.toString())
             when (postCommentState) { //Todo 別コンポーネントにしてダイアログかトーストにする
                 is NetworkResponse.Loading -> {
                 }
@@ -204,7 +218,6 @@ fun MovieDetailContent(
                         color = Color.Green,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
-                    Log.d("post","post成功")
                 }
                 is NetworkResponse.Failure -> {
                     (postCommentState as NetworkResponse.Failure).error?.let {
@@ -213,11 +226,30 @@ fun MovieDetailContent(
                             color = Color.Red,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
-                        Log.d("post","post失敗" + it)
                     }
                 }
             }
-        }
+
+            when (deleteCommentState) { //Todo 別コンポーネントにしてダイアログかトーストにする
+                is NetworkResponse.Loading -> {
+                }
+                is NetworkResponse.Success -> {
+                    Text(
+                        text = "Comment delete successfully!",
+                        color = Color.Green,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+                is NetworkResponse.Failure -> {
+                    (deleteCommentState as NetworkResponse.Failure).error?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                }
+            }
     }
 }
 
@@ -225,12 +257,14 @@ fun MovieDetailContent(
 fun CommentsList(
     comments: List<Comment>,
     onEditComment: (Int, String) -> Unit,
+    onDeleteComment: (Int) -> Unit,
     ) {
     Column(modifier = Modifier.padding(5.dp)) {
         comments.forEach { comment ->
             CommentsComponent(
                 comment = comment,
-                onEditComment = onEditComment
+                onEditComment = onEditComment,
+                onDeleteComment = onDeleteComment,
             )
             Spacer(modifier = Modifier.height(8.dp)) // 各コメントの間にスペースを追加
         }

@@ -11,9 +11,9 @@ import javax.inject.Inject
 class CommentRepositoryImpl @Inject constructor(
     private val api: CommentsAPI,
 ) : CommentRepository{
-    override suspend fun getComment(): GetCommentDto {
+    override suspend fun getComment(movieId: Int): GetCommentDto {
         try {
-            return api.getSuccessComments()
+            return api.getSuccessComments(movieId)
         } catch (e: Exception) {
             throw e
         }
@@ -39,7 +39,17 @@ class CommentRepositoryImpl @Inject constructor(
             return response.body() ?: throw Exception("Empty response body")
         } else {
             throw Exception("Error occurred: ${response.errorBody()?.string()}")
-            Log.d("post", "repositoryImple: ${response.errorBody()?.string()}")
+        }
+    }
+
+    override suspend fun deleteComment(commentId: Int): ResMessage {
+        val response = api.deleteSuccessComment(commentId)
+
+        if (response.isSuccessful){
+            return response.body() ?: throw Exception("Empty response body")
+        } else {
+            throw Exception("Error occurred: ${response.errorBody()?.string()}")
+            Log.d("delete", "repositoryImple: ${response.errorBody()?.string()}")
         }
     }
 }
