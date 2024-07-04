@@ -1,6 +1,5 @@
 package com.websarva.wings.android.movieapp.infrastructure.repository_implement
 
-import android.util.Log
 import com.websarva.wings.android.movieapp.application.comment_usecase.GetCommentDto
 import com.websarva.wings.android.movieapp.domain.entity.PostCommentRequest
 import com.websarva.wings.android.movieapp.domain.entity.ResMessage
@@ -49,7 +48,6 @@ class CommentRepositoryImpl @Inject constructor(
             return response.body() ?: throw Exception("Empty response body")
         } else {
             throw Exception("Error occurred: ${response.errorBody()?.string()}")
-            Log.d("delete", "repositoryImple: ${response.errorBody()?.string()}")
         }
     }
 }

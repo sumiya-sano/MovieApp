@@ -1,6 +1,5 @@
 package com.websarva.wings.android.movieapp.presentation.comment.Post
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.movieapp.application.comment_usecase.PostMessageUsecase
@@ -25,7 +24,6 @@ class PostCommentViewModel @Inject constructor(
         viewModelScope.launch {
             postMessageUsecase(userId, movieId, messageBody).collect {response ->
                 _postCommentState.value = response
-                Log.d("post", "viemodel：" + response)
             }
         }
     }

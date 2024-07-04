@@ -1,6 +1,5 @@
 package com.websarva.wings.android.movieapp.application.comment_usecase
 
-import android.util.Log
 import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 import com.websarva.wings.android.movieapp.domain.repository_interface.comment.CommentRepository
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
@@ -19,7 +18,6 @@ class deleteCommentUsecase @Inject constructor(
             emit(NetworkResponse.Success<ResMessage>(message))
         } catch (e: Exception) {
             emit(NetworkResponse.Failure<ResMessage>(e.message.toString()))
-            Log.d("delete","usecase" + e.message.toString())
         }
     }
 }

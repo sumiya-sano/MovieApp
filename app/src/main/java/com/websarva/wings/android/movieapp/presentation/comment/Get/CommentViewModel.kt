@@ -1,12 +1,10 @@
 package com.websarva.wings.android.movieapp.presentation.comment.Get
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.movieapp.application.comment_usecase.GetCommentUsecase
-import com.websarva.wings.android.movieapp.domain.entity.MovieDetail
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

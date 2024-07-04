@@ -1,6 +1,5 @@
 package com.websarva.wings.android.movieapp.application.comment_usecase
 
-import android.util.Log
 import com.websarva.wings.android.movieapp.domain.entity.PostCommentRequest
 import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 import com.websarva.wings.android.movieapp.domain.repository_interface.comment.CommentRepository
@@ -21,10 +20,8 @@ class PostMessageUsecase @Inject constructor(
             val request = PostCommentRequest(userId, movieId, messageBody)
             val message = repository.postComment(request)
             emit(NetworkResponse.Success<ResMessage>(message))
-            Log.d("post", "usecaseまで成功")
         } catch (e: Exception) {
             emit(NetworkResponse.Failure<ResMessage>(e.message.toString()))
-            Log.d("post", "usecaseでException" + e.message.toString())
         }
     }
 }
