@@ -9,7 +9,7 @@ interface CommentRepository {
     //GET
     suspend fun getComment(movieId: Int): GetCommentDto
     //PUT
-    suspend fun putComment(commentId: Int, messageBody: Map<String, String>): ResMessage
+    suspend fun putComment(commentId: Int, commentBody: Map<String, String>): ResMessage
     //POST
     suspend fun postComment(request: PostCommentRequest): ResMessage
     //DELETE

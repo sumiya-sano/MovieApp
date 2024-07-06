@@ -12,11 +12,11 @@ class GetCommentUsecase @Inject constructor(
 ) {
     operator fun invoke(movieId: Int): Flow<NetworkResponse<List<Comment>>> = flow {
         try {
-            emit(NetworkResponse.Loading<List<Comment>>())
+            emit(NetworkResponse.Loading())
             val comments = repository.getComment(movieId).toComments()
-            emit(NetworkResponse.Success<List<Comment>>(comments))
+            emit(NetworkResponse.Success(comments))
         }catch (e: Exception){
-            emit(NetworkResponse.Failure<List<Comment>>(e.message.toString()))
+            emit(NetworkResponse.Failure(e.message.toString()))
         }
     }
 }

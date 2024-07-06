@@ -165,7 +165,7 @@ fun MovieDetailContent(
                                 postCommentViewModel.postComment(
                                     userId = 111, //Todo
                                     movieId = 3258,//Todo movieDetail.movieId ?: -1
-                                    messageBody = postedComment
+                                    commentBody = postedComment
                                 )
                                 keyboardController?.hide()
                             }
@@ -175,7 +175,7 @@ fun MovieDetailContent(
                 CommentsList(
                     comments = commentState.comments,
                     onEditComment = { commentId, editedComment ->
-                        putCommentViewModel.putComment(commentId = commentId, messageBody = editedComment)
+                        putCommentViewModel.putComment(commentId = commentId, commentBody = editedComment)
                     },
                     onDeleteComment = {commentId ->
                         deleteCommentViewModel.deleteComment(commentId)

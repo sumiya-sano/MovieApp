@@ -13,11 +13,11 @@ class deleteCommentUsecase @Inject constructor(
 ) {
     operator fun invoke(commentId: Int): Flow<NetworkResponse<ResMessage>> = flow {
         try {
-            emit(NetworkResponse.Loading<ResMessage>())
+            emit(NetworkResponse.Loading())
             val message = repository.deleteComment(commentId)
-            emit(NetworkResponse.Success<ResMessage>(message))
+            emit(NetworkResponse.Success(message))
         } catch (e: Exception) {
-            emit(NetworkResponse.Failure<ResMessage>(e.message.toString()))
+            emit(NetworkResponse.Failure(e.message.toString()))
         }
     }
 }

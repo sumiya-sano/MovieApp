@@ -2,7 +2,7 @@ package com.websarva.wings.android.movieapp.presentation.comment.Put
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.websarva.wings.android.movieapp.application.comment_usecase.PutMessageUsecase
+import com.websarva.wings.android.movieapp.application.comment_usecase.PutCommentUsecase
 import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,15 +14,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PutCommentViewModel @Inject constructor(
-    private val putMessageUsecase: PutMessageUsecase,
+    private val putMessageUsecase: PutCommentUsecase,
 ) : ViewModel() {
 
     private val _putCommentState = MutableStateFlow<NetworkResponse<ResMessage>>(NetworkResponse.Loading())
     val putCommentState: StateFlow<NetworkResponse<ResMessage>> = _putCommentState
 
-    fun putComment(commentId: Int, messageBody: String) {
+    fun putComment(commentId: Int, commentBody: String) {
         val requestBody = mapOf(
-            "message_body" to messageBody
+            "comment_body" to commentBody
         )
 
         viewModelScope.launch {

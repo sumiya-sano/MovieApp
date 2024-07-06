@@ -20,9 +20,9 @@ class CommentRepositoryImpl @Inject constructor(
 
     override suspend fun putComment(
         commentId: Int,
-        messageBody: Map<String, String>
+        commentBody: Map<String, String>
     ): ResMessage {
-        val response = api.putSuccessComment(commentId, messageBody)
+        val response = api.putSuccessComment(commentId, commentBody)
 
         if (response.isSuccessful){
             return response.body() ?: throw Exception("Empty response body")

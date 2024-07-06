@@ -41,7 +41,6 @@ class KeywordSeachMovieViewModel @Inject constructor(
                 is NetworkResponse.Loading -> {
                     _state.value = KeywordSearchMovieState(isLoading = true)
                 }
-
             }
         }.launchIn(viewModelScope)
     }

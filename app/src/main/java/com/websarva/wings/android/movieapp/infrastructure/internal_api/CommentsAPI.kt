@@ -14,7 +14,6 @@ import retrofit2.http.Path
 //コメントMock
 interface CommentsAPI {
     //successパターンのGET
-    //ToDo パスパラメータを3258->movieIdにする
     @GET("/internalapi/v1/comments/fetch/{movie_id}")
     suspend fun getSuccessComments(
         @Path("movie_id") movieId: Int,
@@ -24,7 +23,7 @@ interface CommentsAPI {
     @PUT("/internalapi/v1/comments/{comment_id}")
     suspend fun putSuccessComment(
         @Path("comment_id") commentId: Int,
-        @Body messagebody: Map<String, String>
+        @Body commentBody: Map<String, String>
     ): Response<ResMessage>
 
     //POST

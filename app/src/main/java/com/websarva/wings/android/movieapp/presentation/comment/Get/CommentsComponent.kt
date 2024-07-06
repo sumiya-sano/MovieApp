@@ -75,7 +75,6 @@ fun CommentsComponent(
             onClick = {
                 onDeleteComment(
                     // Todo comment.commentId ?: -1
-                    // 999 //エラーの場合
                     222
                 )
             }

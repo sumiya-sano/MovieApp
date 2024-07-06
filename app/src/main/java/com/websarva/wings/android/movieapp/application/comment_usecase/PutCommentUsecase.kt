@@ -7,16 +7,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class PutMessageUsecase @Inject constructor(
+class PutCommentUsecase @Inject constructor(
     private val repository: CommentRepository
 ){
-    operator fun invoke(commentId: Int, messageBody: Map<String, String>): Flow<NetworkResponse<ResMessage>> = flow {
+    operator fun invoke(commentId: Int, commentBody: Map<String, String>): Flow<NetworkResponse<ResMessage>> = flow {
         try {
-            emit(NetworkResponse.Loading<ResMessage>())
-            val message = repository.putComment(commentId,messageBody)
-            emit(NetworkResponse.Success<ResMessage>(message))
+            emit(NetworkResponse.Loading())
+            val message = repository.putComment(commentId,commentBody)
+            emit(NetworkResponse.Success(message))
         } catch (e: Exception){
-            emit(NetworkResponse.Failure<ResMessage>(e.message.toString()))
+            emit(NetworkResponse.Failure(e.message.toString()))
         }
     }
 }

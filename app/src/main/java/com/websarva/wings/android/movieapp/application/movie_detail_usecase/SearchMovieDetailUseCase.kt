@@ -13,11 +13,11 @@ class SearchMovieDetailUseCase @Inject constructor(
     //movieIdを引数に、詳細情報のListを返すメソッド
     operator fun invoke(movieId: Int): Flow<NetworkResponse<MovieDetail>> = flow {
         try {
-            emit(NetworkResponse.Loading<MovieDetail>())
+            emit(NetworkResponse.Loading())
             val movieDetail = repository.searchMovieDetail(movieId).toMovieDetail()
-            emit(NetworkResponse.Success<MovieDetail>(movieDetail))
+            emit(NetworkResponse.Success(movieDetail))
         }catch (e: Exception){
-            emit(NetworkResponse.Failure<MovieDetail>(e.message.toString()))
+            emit(NetworkResponse.Failure(e.message.toString()))
         }
     }
 }
