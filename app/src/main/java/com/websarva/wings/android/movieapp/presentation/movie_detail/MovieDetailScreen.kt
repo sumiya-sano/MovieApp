@@ -53,27 +53,27 @@ fun MovieDetailScreen(
 ){
     val movieDetailState by movieDetailViewModel.state
 
-        Box {
-            when {
-                movieDetailState.isLoading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
-                !movieDetailState.error.isNullOrBlank() -> {
-                    Text(
-                        text = movieDetailState.error!!,
-                        modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-                else -> {
-                    Column {
-                        movieDetailState.movieDetail?.let { movieDetail ->
-                            MovieDetailContent(movieDetail = movieDetail)
-                        }
+    Box {
+        when {
+            movieDetailState.isLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+            !movieDetailState.error.isNullOrBlank() -> {
+                Text(
+                    text = movieDetailState.error!!,
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+            else -> {
+                Column {
+                    movieDetailState.movieDetail?.let { movieDetail ->
+                        MovieDetailContent(movieDetail = movieDetail)
                     }
                 }
             }
         }
+    }
 }
 
 @Composable
