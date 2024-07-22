@@ -16,7 +16,6 @@ data class KeywordSearchMovieDto(
     val totalResults: Int?
 )
 
-//Dto->modelに変換
 fun KeywordSearchMovieDto.toMovies(): List<Movie> {
     return results?.mapNotNull {
         it?.let { result ->

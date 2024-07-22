@@ -1,8 +1,6 @@
 package com.websarva.wings.android.movieapp.application.comment_usecase
 
-import android.util.Log
 import com.websarva.wings.android.movieapp.domain.entity.PostCommentRequest
-import com.websarva.wings.android.movieapp.domain.entity.ResMessage
 import com.websarva.wings.android.movieapp.domain.repository_interface.comment.CommentRepository
 import com.websarva.wings.android.movieapp.infrastructure.NetworkResponse
 import javax.inject.Inject
@@ -14,16 +12,14 @@ class PostCommentUsecase @Inject constructor(
 ) {
     operator fun invoke(
         userId: Int, movieId: Int, commentBody: String,
-    ): Flow<NetworkResponse<ResMessage>> = flow {
+    ): Flow<NetworkResponse<String>> = flow {
         try {
             emit(NetworkResponse.Loading())
-
             val request = PostCommentRequest( userId, movieId, commentBody)
-            val message = repository.postComment(request)
-            emit(NetworkResponse.Success(message))
+            repository.postComment(request)
+            emit(NetworkResponse.Success("コメントを投稿しました！"))
         } catch (e: Exception) {
             emit(NetworkResponse.Failure(e.message.toString()))
-            Log.d("post", "usecase" + e.message.toString())
         }
     }
 }

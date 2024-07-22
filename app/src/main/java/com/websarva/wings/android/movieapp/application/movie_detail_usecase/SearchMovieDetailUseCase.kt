@@ -10,7 +10,6 @@ import javax.inject.Inject
 class SearchMovieDetailUseCase @Inject constructor(
     private val repository: MovieRepository,
 ) {
-    //movieIdを引数に、詳細情報のListを返すメソッド
     operator fun invoke(movieId: Int): Flow<NetworkResponse<MovieDetail>> = flow {
         try {
             emit(NetworkResponse.Loading())

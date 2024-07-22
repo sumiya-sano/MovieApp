@@ -94,9 +94,30 @@ fun MovieDetailContent(
 
     LaunchedEffect(movieDetail.movieId) {
         commentViewModel.getComments(
-            3258
-        //    movieDetail.movieId
+            movieDetail.movieId
         )
+    }
+
+    LaunchedEffect(postCommentState) {
+        if (postCommentState is NetworkResponse.Success) {
+            commentViewModel.getComments(movieDetail.movieId)
+            postedComment = ""
+            postCommentViewModel.resetPostCommentState()
+        }
+    }
+
+    LaunchedEffect(putCommentState) {
+        if (putCommentState is NetworkResponse.Success) {
+            commentViewModel.getComments(movieDetail.movieId)
+            putCommentViewModel.resetPutCommentState()
+        }
+    }
+
+    LaunchedEffect(deleteCommentState) {
+        if (deleteCommentState is NetworkResponse.Success) {
+            commentViewModel.getComments(movieDetail.movieId)
+            deleteCommentViewModel.resetDeleteCommentState()
+        }
     }
 
 
@@ -164,7 +185,7 @@ fun MovieDetailContent(
                             onDone = {
                                 postCommentViewModel.postComment(
                                     userId = 111, //Todo
-                                    movieId = 3258,//Todo movieDetail.movieId ?: -1
+                                    movieId = movieDetail.movieId,
                                     commentBody = postedComment
                                 )
                                 keyboardController?.hide()
@@ -178,7 +199,9 @@ fun MovieDetailContent(
                         putCommentViewModel.putComment(commentId = commentId, commentBody = editedComment)
                     },
                     onDeleteComment = {commentId ->
-                        deleteCommentViewModel.deleteComment(commentId)
+                        deleteCommentViewModel.deleteComment(
+                            commentId = commentId
+                        )
                     }
                 )
             }
@@ -191,19 +214,23 @@ fun MovieDetailContent(
                 is NetworkResponse.Loading -> {
                 }
                 is NetworkResponse.Success -> {
-                    Text(
-                        text = "Comment updated successfully!",
-                        color = Color.Green,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
+                    putCommentState.data?.let {
+                        Text(
+                            text = it,
+                            color = Color.Green,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
                 is NetworkResponse.Failure -> {
                     (putCommentState as NetworkResponse.Failure).error?.let {
-                        Text(
-                            text = it,
-                            color = Color.Red,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
+                        putCommentState.data?.let { it1 ->
+                            Text(
+                                text = it1,
+                                color = Color.Red,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
                     }
                 }
             }
@@ -212,11 +239,13 @@ fun MovieDetailContent(
                 is NetworkResponse.Loading -> {
                 }
                 is NetworkResponse.Success -> {
-                    Text(
-                        text = "Comment post successfully!",
-                        color = Color.Green,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
+                    postCommentState.data?.let {
+                        Text(
+                            text = it,
+                            color = Color.Green,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
                 is NetworkResponse.Failure -> {
                     (postCommentState as NetworkResponse.Failure).error?.let {
@@ -233,11 +262,13 @@ fun MovieDetailContent(
                 is NetworkResponse.Loading -> {
                 }
                 is NetworkResponse.Success -> {
-                    Text(
-                        text = "Comment delete successfully!",
-                        color = Color.Green,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
+                    deleteCommentState.data?.let {
+                        Text(
+                            text = it,
+                            color = Color.Green,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
                 is NetworkResponse.Failure -> {
                     (deleteCommentState as NetworkResponse.Failure).error?.let {
@@ -265,7 +296,7 @@ fun CommentsList(
                 onEditComment = onEditComment,
                 onDeleteComment = onDeleteComment,
             )
-            Spacer(modifier = Modifier.height(8.dp)) // 各コメントの間にスペースを追加
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

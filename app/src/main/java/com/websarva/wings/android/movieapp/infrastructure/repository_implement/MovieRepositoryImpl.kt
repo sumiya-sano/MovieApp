@@ -6,7 +6,6 @@ import com.websarva.wings.android.movieapp.infrastructure.external_api.Themovied
 import com.websarva.wings.android.movieapp.domain.repository_interface.movie.MovieRepository
 import javax.inject.Inject
 
-//コンストラクタ・インジェクション
  class MovieRepositoryImpl @Inject constructor(
     private val api: ThemoviedbAPI,
 ) : MovieRepository {
@@ -14,7 +13,7 @@ import javax.inject.Inject
         try {
             return api.keywordSearchMovies(query, language = "ja")
         } catch (e: Exception) {
-            throw e // 例外を再スローして上位のコードで処理できるようにする
+            throw e
         }
     }
 

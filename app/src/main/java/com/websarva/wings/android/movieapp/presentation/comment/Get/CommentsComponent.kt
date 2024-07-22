@@ -74,8 +74,7 @@ fun CommentsComponent(
         OutlinedIconButton(
             onClick = {
                 onDeleteComment(
-                    // Todo comment.commentId ?: -1
-                    222
+                    comment.commentId ?: -1
                 )
             }
         ) {
