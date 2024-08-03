@@ -147,7 +147,7 @@ fun MovieDetailContent(
 
         Column(modifier = Modifier.padding(10.dp)) {
             Text(
-                text = movieDetail.title ?: "No title",
+                text = movieDetail.title ,
                 style = MaterialTheme.typography.headlineMedium
             )
             Spacer(modifier = Modifier.height(20.dp))
